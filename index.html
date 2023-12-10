@@ -7,7 +7,7 @@
 * Copyright 2018-2023 codecalm.net Paweł Kuna
 * Licensed under MIT (https://github.com/tabler/tabler/blob/master/LICENSE)
 -->
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
@@ -15,10 +15,10 @@
     <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
     <!-- CSS files -->
     <link href="dist/css/tabler.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
-    <link href="./dist/css/demo.min.css?1684106062" rel="stylesheet"/>
+    <link href="dist/css/tabler-flags.min.css?1684106062" rel="stylesheet"/>
+    <link href="dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
+    <link href="dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
+    <link href="dist/css/demo.min.css?1684106062" rel="stylesheet"/>
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -30,8 +30,7 @@
     </style>
   </head>
   <body >
-    <script src="./dist/js/demo-theme.min.js?1684106062"></script>
-
+    <script src="dist/js/demo-theme.min.js?1684106062"></script>
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md d-print-none" >
@@ -1169,73 +1168,8 @@
                     </div>
                     <div id="chart-development-activity"></div>
                   </div>
-                  <div class="card-table table-responsive">
-                    <table class="table table-vcenter">
-                      <thead>
-                        <tr>
-                          <th>User</th>
-                          <th>Commit</th>
-                          <th>Date</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="w-1">
-                            <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
-                          </td>
-                          <td class="td-truncate">
-                            <div class="text-truncate">
-                              Fix dart Sass compatibility (#29755)
-                            </div>
-                          </td>
-                          <td class="text-nowrap text-muted">28 Nov 2019</td>
-                        </tr>
-                        <tr>
-                          <td class="w-1">
-                            <span class="avatar avatar-sm">JL</span>
-                          </td>
-                          <td class="td-truncate">
-                            <div class="text-truncate">
-                              Change deprecated html tags to text decoration classes (#29604)
-                            </div>
-                          </td>
-                          <td class="text-nowrap text-muted">27 Nov 2019</td>
-                        </tr>
-                        <tr>
-                          <td class="w-1">
-                            <span class="avatar avatar-sm" style="background-image: url(./static/avatars/002m.jpg)"></span>
-                          </td>
-                          <td class="td-truncate">
-                            <div class="text-truncate">
-                              justify-content:between ⇒ justify-content:space-between (#29734)
-                            </div>
-                          </td>
-                          <td class="text-nowrap text-muted">26 Nov 2019</td>
-                        </tr>
-                        <tr>
-                          <td class="w-1">
-                            <span class="avatar avatar-sm" style="background-image: url(./static/avatars/003m.jpg)"></span>
-                          </td>
-                          <td class="td-truncate">
-                            <div class="text-truncate">
-                              Update change-version.js (#29736)
-                            </div>
-                          </td>
-                          <td class="text-nowrap text-muted">26 Nov 2019</td>
-                        </tr>
-                        <tr>
-                          <td class="w-1">
-                            <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000f.jpg)"></span>
-                          </td>
-                          <td class="td-truncate">
-                            <div class="text-truncate">
-                              Regenerate package-lock.json (#29730)
-                            </div>
-                          </td>
-                          <td class="text-nowrap text-muted">25 Nov 2019</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div class="card-table table-responsive user-table">
+                 
                   </div>
                 </div>
               </div>
@@ -2102,6 +2036,75 @@
         </div>
       </div>
     </div>
+    <!-- index html -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script>
+   const supabaseUrl = "https://kunglsicsakuulhxguaa.supabase.co";
+const supabaseKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1bmdsc2ljc2FrdXVsaHhndWFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDE1NjUwMzcsImV4cCI6MjAxNzE0MTAzN30.6mrpRpWqouSp1YUpQpu1gvNZCtFkKXEh4B68OZdKo6Q";
+
+// Create a Supabase client
+const _supabase = supabase.createClient(supabaseUrl,supabaseKey)
+console.log(_supabase)
+const userstable=document.querySelector('.user-table')
+let userData = [];
+
+async function fetchData() {
+  try {
+    // Fetch all rows from the specified table
+    const { data, error } = await _supabase.from("contributors").select("*");
+
+    if (error) {
+      throw error;
+    }
+
+    console.log(data);
+
+    if (data.length > 0) {
+      userData = data;
+      updateTable(); // Call the function to update the table after data is fetched
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+  }
+}
+
+function updateTable() {
+  userstable.innerHTML = `
+    <table class="table table-vcenter">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Commit</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${userData.map(({ id, userImgSource, commit, date }) => {
+          return `
+            <tr>
+              <td class="w-1">
+                <span class="avatar avatar-sm" style="background-image: url(${userImgSource})"></span>
+              </td>
+              <td class="td-truncate">
+                <div class="text-truncate">
+                  ${commit}
+                </div>
+              </td>
+              <td class="text-nowrap text-muted">${date}</td>
+            </tr>
+          `;
+        })}
+      </tbody>
+    </table>`;
+}
+
+// Call the fetchData function to initiate the data fetching process
+fetchData();
+ 
+
+
+      </script>
     <!-- Libs JS -->
     <script src="dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
     <script src="dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062" defer></script>
