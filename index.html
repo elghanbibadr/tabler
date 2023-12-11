@@ -2030,43 +2030,43 @@
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">No</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder=" No">
+        <input type="number"  class="form-control no"  placeholder=" No">
       </div>
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Client</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder="Client">
+        <input type="text" class="client form-control"  placeholder="Client">
       </div>
    
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Vat No</label>
-        <input type="number" class="form-control" name="example-text-input" placeholder="Vat No">
+        <input type="number" class="vatno form-control"  placeholder="Vat No">
       </div>
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Created</label>
-        <input type="date" class="form-control" name="example-text-input" placeholder="Create">
+        <input type="date" class="created form-control"  placeholder="Create">
       </div>
          <!-- input -->
          <div class="mb-3 p-3">
           <label class="form-label">Price</label>
-          <input type="text" class="form-control" name="example-text-input" placeholder="Price">
+          <input type="text" class="price form-control"  placeholder="Price">
         </div>
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Invoice Subject</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder="Invoice Subject">
+        <input type="text" class="invoicesubject form-control"  placeholder="Invoice Subject">
       </div>
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Status</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder="Status">
+        <input type="text" class="statu form-control"  placeholder="Status">
       </div>
       <!-- input -->
       <div class="mb-3 p-3">
         <label class="form-label">Country Flag</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder="Country Flag">
+        <input type="text" class="countryflag form-control"  placeholder="Country Flag">
       </div>
       <!-- modal footer -->
       <div class="modal-footer">
@@ -2227,7 +2227,7 @@ invoiceTableBody.addEventListener('click', async (event) => {
     // Get the row element containing the delete button
     const row = event.target.closest('tr');
     // Extract the invoice ID from the row
-const invoiceId = row.getAttribute('data-id');
+const invoiceId = row.getAttribute('id');
 
     // Confirm the deletion with the user (optional)
     const shouldDelete = confirm('Are you sure you want to delete this invoice?');
@@ -2266,28 +2266,23 @@ invoiceTableBody.addEventListener('click', async () => {
 });
 
 updateInvoiceModalBtn.addEventListener('click',async () => {
+  console.log('clicked')
+ console.log(document.querySelector('.no').value) 
   console.log(rowToBeUpdatedId)
   if (!rowToBeUpdatedId) return
   // return
   try {
     // Retrieve values from input fields
-    // const no = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const CLIENT= document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const VATNO = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const CREATED = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const PRICE = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const INVOICESUBJECT = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const STATUS=document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
-    // const COUNTRYFLAG= document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    const no = document.querySelector('.no').value;
+    const CLIENT= document.querySelector('.client').value;
+    const VATNO = document.querySelector('.vatno').value;
+    const CREATED = document.querySelector('.created').value;
+    const PRICE = document.querySelector('.price').value;
+    const INVOICESUBJECT = document.querySelector('.invoicesubject').value;
+    const STATUS=document.querySelector('.statu').value;
+    const COUNTRYFLAG= document.querySelector('.countryflag').value;
 
-    const no = '183938'
-    const CLIENT= 'badr'
-    const VATNO = "3393937"
-    const CREATED = "2022 9 21"
-    const PRICE = "$37393"
-    const INVOICESUBJECT = "hi"
-    const STATUS="paid"
-    const COUNTRYFLAG= "us"
+     
 
     // Construct an object with the updated values
     const updatedData = {
@@ -2302,6 +2297,8 @@ updateInvoiceModalBtn.addEventListener('click',async () => {
     };
 
 
+    console.log(updatedData)
+   console.log('passsed')
   
     // Use the Supabase SDK to update the row in the database
     const { data, error } = await _supabase
