@@ -2114,16 +2114,14 @@ async function fetchInvoices() {
   }
 }
 
-invoiceTableBody.addEventListener("click", (event) => {
-  console.log(event.target)
-})
+
 fetchInvoices();
 function updateInvoicesTable() {
   invoiceTableBody.innerHTML = `
   ${invoices.map(({ id,no, COUNTRYFLAG, CLIENT, INVOICESUBJECT, PRICE, CREATED, STATUS }) => {
       return `
-      <tr>
-                          <td><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
+      <tr data-id=${id}>
+                          <td ><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
                           <td><span class="text-muted">${no}</span></td>
                           <td><a href="invoice.html" class="text-reset" tabindex="-1">${INVOICESUBJECT}</a></td>
                           <td>
@@ -2162,12 +2160,41 @@ function updateInvoicesTable() {
 }        
 
 // delete an invoice 
- // Add event listeners to delete buttons
- console.log(document.querySelector(".deleteInvoiceBtn"))
-//  document.querySelectorAll(".deleteInvoiceBtn").forEach((deleteBtn) => {
-//   console.log(deleteBtn)
-//     deleteBtn.addEventListener("click", () => alert("Delete"));
-//   });
+// ... (Your existing code)
+
+// Event delegation for the delete button
+invoiceTableBody.addEventListener('click', async (event) => {
+  if (event.target.classList.contains('deleteInvoiceBtn')) {
+    // Get the row element containing the delete button
+    const row = event.target.closest('tr');
+    // Extract the invoice ID from the row
+const invoiceId = row.getAttribute('data-id');
+
+    // Confirm the deletion with the user (optional)
+    const shouldDelete = confirm('Are you sure you want to delete this invoice?');
+
+    if (shouldDelete) {
+      try {
+        // Remove the row from the UI immediately
+        row.remove();
+      console.log(invoiceId)
+        // Delete the invoice from Supabase
+        const { error } = await _supabase.from('invoices').delete().eq('id', invoiceId);
+
+        if (error) {
+          throw error;
+        }
+
+        console.log('Invoice deleted successfully.');
+      } catch (error) {
+        alert('Error deleting invoice:', error.message);
+      }
+    }
+  }
+});
+
+// ... (Your existing code)
+
 
       </script>
     <!-- Libs JS -->
