@@ -19,6 +19,7 @@
     <link href="dist/css/tabler-payments.min.css?1684106062" rel="stylesheet"/>
     <link href="dist/css/tabler-vendors.min.css?1684106062" rel="stylesheet"/>
     <link href="dist/css/demo.min.css?1684106062" rel="stylesheet"/>
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
     <style>
       @import url('https://rsms.me/inter/inter.css');
       :root {
@@ -2021,6 +2022,18 @@
         </div>
       </div>
     </div>
+
+    <!-- UPDATE INVOICE MODAL -->
+    <div class="modal modal-blur fade" id="modal-updateInvoice"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+     <div class="modal-content">
+      <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder="Your report name">
+      </div>
+     </div>
+    </div>
+    </div>
     <!-- index html -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
@@ -2142,8 +2155,8 @@ function updateInvoicesTable() {
                             <span class="dropdown">
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                               <div class="dropdown-menu dropdown-menu-end">
-                                <a class="dropdown-item" href="#">
-                                  Update
+                                <a class="dropdown-item" href="#" > 
+                                  <span data-bs-toggle="modal" data-bs-target="#modal-updateInvoice">Update</span>
                                 </a>
                                 <span class="dropdown-item  deleteInvoiceBtn" >
                                   Delete
@@ -2198,6 +2211,8 @@ const invoiceId = row.getAttribute('data-id');
 
       </script>
     <!-- Libs JS -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+
     <script src="dist/libs/apexcharts/dist/apexcharts.min.js?1684106062" defer></script>
     <script src="dist/libs/jsvectormap/dist/js/jsvectormap.min.js?1684106062" defer></script>
     <script src="dist/libs/jsvectormap/dist/maps/world.js?1684106062" defer></script>
