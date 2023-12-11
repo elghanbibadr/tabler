@@ -2027,9 +2027,55 @@
     <div class="modal modal-blur fade" id="modal-updateInvoice"  role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
      <div class="modal-content">
-      <div class="mb-3">
-        <label class="form-label">Name</label>
-        <input type="text" class="form-control" name="example-text-input" placeholder="Your report name">
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">No</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder=" No">
+      </div>
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Client</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder="Client">
+      </div>
+   
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Vat No</label>
+        <input type="number" class="form-control" name="example-text-input" placeholder="Vat No">
+      </div>
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Created</label>
+        <input type="date" class="form-control" name="example-text-input" placeholder="Create">
+      </div>
+         <!-- input -->
+         <div class="mb-3 p-3">
+          <label class="form-label">Price</label>
+          <input type="text" class="form-control" name="example-text-input" placeholder="Price">
+        </div>
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Invoice Subject</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder="Invoice Subject">
+      </div>
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Status</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder="Status">
+      </div>
+      <!-- input -->
+      <div class="mb-3 p-3">
+        <label class="form-label">Country Flag</label>
+        <input type="text" class="form-control" name="example-text-input" placeholder="Country Flag">
+      </div>
+      <!-- modal footer -->
+      <div class="modal-footer">
+        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+          Cancel
+        </a>
+        <span  class="btn updateInvoiceModalBtn btn-primary ms-auto" data-bs-dismiss="modal">
+          Update
+        </span>
       </div>
      </div>
     </div>
@@ -2133,7 +2179,7 @@ function updateInvoicesTable() {
   invoiceTableBody.innerHTML = `
   ${invoices.map(({ id,no, COUNTRYFLAG, CLIENT, INVOICESUBJECT, PRICE, CREATED, STATUS }) => {
       return `
-      <tr data-id=${id}>
+      <tr id=${id}>
                           <td ><input class="form-check-input m-0 align-middle" type="checkbox" aria-label="Select invoice"></td>
                           <td><span class="text-muted">${no}</span></td>
                           <td><a href="invoice.html" class="text-reset" tabindex="-1">${INVOICESUBJECT}</a></td>
@@ -2156,7 +2202,7 @@ function updateInvoicesTable() {
                               <button class="btn dropdown-toggle align-text-top" data-bs-boundary="viewport" data-bs-toggle="dropdown">Actions</button>
                               <div class="dropdown-menu dropdown-menu-end">
                                 <a class="dropdown-item" href="#" > 
-                                  <span data-bs-toggle="modal" data-bs-target="#modal-updateInvoice">Update</span>
+                                  <span class='updateInvoiceBtn' data-bs-toggle="modal" data-bs-target="#modal-updateInvoice">Update</span>
                                 </a>
                                 <span class="dropdown-item  deleteInvoiceBtn" >
                                   Delete
@@ -2173,7 +2219,7 @@ function updateInvoicesTable() {
 }        
 
 // delete an invoice 
-// ... (Your existing code)
+
 
 // Event delegation for the delete button
 invoiceTableBody.addEventListener('click', async (event) => {
@@ -2206,7 +2252,78 @@ const invoiceId = row.getAttribute('data-id');
   }
 });
 
-// ... (Your existing code)
+// UPDATE AN INVOICE ON SUPABASE TABLE 
+const updateInvoiceModalBtn=document.querySelector('.updateInvoiceModalBtn')
+let rowToBeUpdatedId;
+
+invoiceTableBody.addEventListener('click', async () => {
+  if (event.target.classList.contains('updateInvoiceBtn')) {
+    // Get the row element containing the delete button
+    const row = event.target.closest('tr');
+     rowToBeUpdatedId=row.id
+  }
+  
+});
+
+updateInvoiceModalBtn.addEventListener('click',async () => {
+  console.log(rowToBeUpdatedId)
+  if (!rowToBeUpdatedId) return
+  // return
+  try {
+    // Retrieve values from input fields
+    // const no = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const CLIENT= document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const VATNO = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const CREATED = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const PRICE = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const INVOICESUBJECT = document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const STATUS=document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+    // const COUNTRYFLAG= document.querySelector('#modal-updateInvoice input[name="example-text-input"]').value;
+
+    const no = '183938'
+    const CLIENT= 'badr'
+    const VATNO = "3393937"
+    const CREATED = "2022 9 21"
+    const PRICE = "$37393"
+    const INVOICESUBJECT = "hi"
+    const STATUS="paid"
+    const COUNTRYFLAG= "us"
+
+    // Construct an object with the updated values
+    const updatedData = {
+      no,
+     CLIENT,
+      VATNO,
+      CREATED,
+      PRICE,
+      INVOICESUBJECT,
+      STATUS,
+      COUNTRYFLAG,
+    };
+
+
+  
+    // Use the Supabase SDK to update the row in the database
+    const { data, error } = await _supabase
+      .from('invoices')
+      .update(updatedData)
+      .eq('id', rowToBeUpdatedId);
+
+    if (error) {
+      throw error;
+    }
+
+    console.log('Invoice updated successfully:', data);
+
+    // You can trigger a UI update or display a success message here if needed
+
+  } catch (error) {
+    console.error('Error updating invoice:', error.message);
+    // Display an error message to the user if needed
+  }finally{
+    rowToBeUpdatedId=null
+  }
+})
 
 
       </script>
